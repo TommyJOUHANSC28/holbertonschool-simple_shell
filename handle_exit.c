@@ -12,30 +12,36 @@ void handle_exit(char **av)
 	size_t i;
     int status = 0;
 
-    if (av[1])
-    {
-        /* Vérifie que l’argument est un entier positif ou négatif */
-        char *arg = av[1];
+    if (av[1])  
+    {    char *arg = av[1];
         for (i = 0; arg[i]; i++)
         {
-            if (i == 0 && (arg[i] == '+' || arg[i] == '-'))
+            if (i == 0 && (arg[i] == '+' || arg[i] == '-'))  
                 continue;
-            if (!isdigit(arg[i]))
+            if (!isdigit((unsigned char)arg[i]))  
             {
                 fprintf(stderr, "%s: exit: %s: numeric argument required\n", SHELL_NAME, arg);
-                /* Libère la mémoire avant de quitter */
+                
                 for (i = 0; av[i]; i++)
                     free(av[i]);
                 free(av);
-                _exit(2); /* code d’erreur pour argument invalide */
+                _exit(2);  
             }
         }
-        status = atoi(av[1]);
+
+        
+        if (av[2])
+        {
+            fprintf(stderr, "%s: exit: too many arguments\n", SHELL_NAME);
+            return;
+        }
+
+        status = atoi(av[1]); 
     }
 
-    /* Libère la mémoire avant de quitter */
+    
     for (i = 0; av[i]; i++)
         free(av[i]);
     free(av);
-    _exit(status);
+    _exit(status);  
 }
