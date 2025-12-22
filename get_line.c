@@ -7,37 +7,35 @@
  * Return: le nombre de caractères lus ou -1 en cas d'erreur ou EOF
  */
 ssize_t get_line(char **line, size_t *len)
-{  
-static char buffer[BUF_SIZE];
-static ssize_t buf_len = 0;
-static ssize_t buf_pos = 0;
-ssize_t nread = 0;
-char *buf, c;
+{
+   
+    ssize_t buf_len;
+    ssize_t nread = 0;
+    char *buf = *line;
+    char c;
 
-if (isatty(STDIN_FILENO))
-            printf("#usr$ ");
-    if (*line == NULL || *len == 0) {
+
+    if (*line == NULL || *len == 0)
+    {
         *len = 128;
         *line = malloc(*len);
-        if (!*line)
+        if (*line == NULL)
             return -1;
     }
-    buf = *line;
+  buf = *line;
 
-    while (1) {
-        if (buf_pos >= buf_len) {
-            buf_len = read(STDIN_FILENO, buffer, BUF_SIZE);
-            buf_pos = 0;
-            if (buf_len <= 0) {
-                if (nread == 0)
-                    return -1;
-                break;
-            }
+    while (1)
+    {
+        buf_len = read(STDIN_FILENO, &c, 1);
+        if (buf_len <= 0)
+        {
+            if (nread == 0)
+                return -1;
+            break;
         }
 
-c = buffer[buf_pos++];
-
-        if (nread + 1 >= (ssize_t)*len) {
+        if (nread + 1 >= (ssize_t)*len)
+        {
             size_t new_len = *len * 2;
             char *new_buf = realloc(buf, new_len);
             if (!new_buf)
@@ -54,7 +52,5 @@ c = buffer[buf_pos++];
     }
 
     buf[nread] = '\0';
-    return nread;
-
-
+     return nread;
 }

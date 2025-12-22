@@ -15,13 +15,15 @@
  */
 int main(int ac, char **av, char **envp)
 {
-char *line = NULL;
-size_t len = 0;
-ssize_t read;
-char *cmd;
-int exit_status = 0;
-(void)ac;
-signal(SIGINT, sigint_handler);
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    char *cmd;
+    int exit_status = 0;
+
+    (void)ac;
+    signal(SIGINT, sigint_handler);
+
     while (1)
     {
         if (isatty(STDIN_FILENO))
@@ -45,12 +47,9 @@ signal(SIGINT, sigint_handler);
             handle_exit(av);
         }
 
-        exit_status = exe_cmd(cmd, envp, line);
+        exit_status = exe_cmd(line, envp);
     }
 
     free(line);
     return exit_status;
-
-
 }
-
