@@ -23,7 +23,7 @@ signal(SIGINT, sigint_handler);
 while (1)
 {
 if (isatty(STDIN_FILENO))
-write(STDOUT_FILENO, "$ ", 2);
+write(STDOUT_FILENO, "usr$ ", 5);
 r = get_line(&line, &len, STDIN_FILENO);
 if (r == -1)
 break;

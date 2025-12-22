@@ -10,12 +10,12 @@ char **split_line(char *line, const char *delim)
 char **av = NULL;
 char *token;
 size_t i = 0;
-token = strtok(line, delim);
+token = our_strtok(line, delim);
 while (token)
 {
 av = realloc(av, sizeof(char *) * (i + 2));
 av[i++] = strdup(token);
-token = strtok(NULL, delim);
+token = our_strtok(NULL, delim);
 }
 if (av)
 av[i] = NULL;

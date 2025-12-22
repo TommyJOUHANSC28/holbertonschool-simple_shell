@@ -16,7 +16,7 @@ path = envp[i] + 5;
 if (!path)
 return NULL;
 copy = strdup(path);
-dir = strtok(copy, ":");
+dir = our_strtok(copy, ":");
 while (dir)
 {
 full = malloc(strlen(dir) + strlen(cmd) + 2);
@@ -27,7 +27,7 @@ free(copy);
 return full;
 }
 free(full);
-dir = strtok(NULL, ":");
+dir = our_strtok(NULL, ":");
 }
 free(copy);
 return NULL;
