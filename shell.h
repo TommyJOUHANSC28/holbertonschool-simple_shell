@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 #define BUF_SIZE 1024
-
+#define SHELL_NAME "./hsh"
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
