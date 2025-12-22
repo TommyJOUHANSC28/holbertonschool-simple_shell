@@ -40,7 +40,7 @@ signal(SIGINT, sigint_handler);
 
         if (strncmp(cmd, "exit", 4) == 0)
         {
-            av = split_line(cmd);
+            av = split_line(cmd, " ");
             free(line);
             handle_exit(av);
         }

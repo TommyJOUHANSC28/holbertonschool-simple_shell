@@ -18,7 +18,9 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 	char **av;
 	int status;
 
-	av = split_line(line);
+	av = split_line(line, " \t\n");
+
+
 	if (!av || !av[0])
 	{
 		if (av)

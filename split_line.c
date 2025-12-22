@@ -5,50 +5,34 @@
  *
  * Return: un tableau de chaînes (terminé par NULL) ou NULL en cas d'erreur
  */
-char **split_line(char *line)
+char **split_line(char *line, const char *delim)
 {
-char *ptr, *token, *line_copy;
-char **av = NULL;
-size_t i = 0, count = 0;
-if (!line)
-return (NULL);
-line_copy = strdup(line);
-if (!line_copy)
-return (NULL);
-ptr = line_copy;
-while ((token = strsep(&ptr, " \t")) != NULL)
-{
-if (*token == '\0')
-continue;
+int i = 0, j = 0, k = 0, count = 1;
+char **tokens;
+/* Compter les tokens */
+for (i = 0; line[i]; i++)
+if (line[i] == delim[0])
 count++;
-}
-free(line_copy);
-av = malloc(sizeof(char *) * (count + 1));
-if (!av)
-return (NULL);
-line_copy = strdup(line);
-if (!line_copy)
-{
-free(av);
-return (NULL);
-}
-ptr = line_copy;
-while ((token = strsep(&ptr, " \t")) != NULL)
-{
-if (*token == '\0')
-continue;
-av[i] = strdup(token);
-if (!av[i])
-{
-while (i > 0)
-free(av[--i]);
-free(av);
-free(line_copy);
+tokens = malloc(sizeof(char *) * (count + 1));
+if (!tokens)
 return NULL;
-}
+i = 0;
+while (line[i])
+{
+/* Sauter les délimiteurs */
+while (line[i] == delim[0])
 i++;
+j = i;
+while (line[j] && line[j] != delim[0])
+j++;
+tokens[k] = malloc(j - i + 1);
+if (!tokens[k])
+return NULL;
+memcpy(tokens[k], line + i, j - i);
+tokens[k][j - i] = '\0';
+k++;
+i = j;
 }
-av[count] = NULL;
-free(line_copy);
-return (av);
+tokens[k] = NULL;
+return tokens;
 }
