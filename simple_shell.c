@@ -1,6 +1,4 @@
 #include "shell.h"
-
-
 /**
  * main - Point d'entrée du programme.
  * @ac: nombre d'arguments passés au programme
@@ -15,48 +13,24 @@
  */
 int main(int ac, char **av, char **envp)
 {
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    char *cmd;
-    int exit_status = 0;
-
-    (void)ac;
-    signal(SIGINT, sigint_handler);
-
-    while (1)
-    {
-        if (isatty(STDIN_FILENO))
-            printf("#usr$ ");
-
-        read = get_line(&line, &len);
-        if (read == -1)
-            break;
-
-        if (line[read - 1] == '\n')
-            line[read - 1] = '\0';
-
-        cmd = del_space(line);
-        if (*cmd == '\0')
-            continue;
-
-        if (strncmp(cmd, "exit", 4) == 0)
-        {
-av = split_line(cmd, " \t");
-if (!av || !av[0])
+char *line = NULL;
+size_t len = 0;
+ssize_t r;
+int status = 0;
+(void)ac;
+(void)av;
+signal(SIGINT, sigint_handler);
+while (1)
 {
-    free(av);
-    continue;
+if (isatty(STDIN_FILENO))
+write(STDOUT_FILENO, "$ ", 2);
+r = get_line(&line, &len, STDIN_FILENO);
+if (r == -1)
+break;
+if (*line == '\0')
+continue;
+status = exe_cmd(line, envp);
 }
-
-
-            free(line);
-            handle_exit(av);
-        }
-
-        exit_status = exe_cmd(line, envp);
-    }
-
-    free(line);
-    return exit_status;
+free(line);
+return (status);
 }

@@ -6,48 +6,29 @@
 */
 char *find_in_path(char *cmd, char **envp)
 {
-char *ptr, *path = NULL, *copy, *token, *full;
-int i = 0;
-if (!cmd || !*cmd)
-return (NULL);
+char *path, *copy, *dir, *full;
+int i;
 if (strchr(cmd, '/'))
-{
-if (access(cmd, X_OK) == 0)
-return (strdup(cmd));
-return (NULL);
-}
-if (envp)
-{
+return (access(cmd, X_OK) == 0 ? strdup(cmd) : NULL);
 for (i = 0; envp[i]; i++)
-{
 if (strncmp(envp[i], "PATH=", 5) == 0)
-{
 path = envp[i] + 5;
-break;
-}
-}
-}
-if (!path || !*path)
-return (NULL);
+if (!path)
+return NULL;
 copy = strdup(path);
-if (!copy)
-return (NULL);
-ptr = copy;
-while ((token = strsep(&ptr, ":")) != NULL)
+dir = strtok(copy, ":");
+while (dir)
 {
-if (*token == '\0')
-continue;
-full = malloc(strlen(token) + strlen(cmd) + 2);
-if (!full)
-break;
-sprintf(full, "%s/%s", token, cmd);
+full = malloc(strlen(dir) + strlen(cmd) + 2);
+sprintf(full, "%s/%s", dir, cmd);
 if (access(full, X_OK) == 0)
 {
 free(copy);
-return (full);
+return full;
 }
 free(full);
+dir = strtok(NULL, ":");
 }
 free(copy);
-return (NULL);
+return NULL;
 }
