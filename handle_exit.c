@@ -37,6 +37,7 @@ void handle_exit(char **av)
         }
 
         status = atoi(av[1]); 
+        _exit(status);
     }
 
     
