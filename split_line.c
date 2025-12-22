@@ -8,25 +8,55 @@
 char **split_line(char *line, const char *delim)
 {
     char **tokens = NULL;
-    char **new_tokens;
-    size_t i = 0;
-    char *token;
+    size_t i = 0, start = 0, end = 0;
+    int in_token = 0;
 
-    token = strtok(line, delim);
-
-    while (token)
+    /* Parcours caractère par caractère */
+    while (line[end] != '\0')
     {
-        new_tokens = realloc(tokens, sizeof(char *) * (i + 2));
-        if (!new_tokens)
-            return NULL;
+        /* Si on tombe sur un délimiteur */
+        if (strchr(delim, line[end]) != NULL)
+        {
+            if (in_token)
+            {
+                /* Fin du token */
+                line[end] = '\0';
 
-        tokens = new_tokens;
-        tokens[i] = strdup(token);
-        i++;
+                tokens = realloc(tokens, sizeof(char *) * (i + 2));
+                if (!tokens)
+                    return NULL;
 
-        token = strtok(NULL, delim);
+                tokens[i] = strdup(&line[start]);
+                i++;
+
+                in_token = 0;
+            }
+        }
+        else
+        {
+            if (!in_token)
+            {
+                /* Début d’un nouveau token */
+                start = end;
+                in_token = 1;
+            }
+        }
+
+        end++;
     }
 
+    /* Dernier token si la ligne ne finit pas par un délimiteur */
+    if (in_token)
+    {
+        tokens = realloc(tokens, sizeof(char *) * (i + 2));
+        if (!tokens)
+            return NULL;
+
+        tokens[i] = strdup(&line[start]);
+        i++;
+    }
+
+    /* Terminaison du tableau */
     if (tokens)
         tokens[i] = NULL;
 

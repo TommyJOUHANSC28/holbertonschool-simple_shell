@@ -42,7 +42,14 @@ int main(int ac, char **av, char **envp)
 
         if (strncmp(cmd, "exit", 4) == 0)
         {
-            av = split_line(cmd, " ");
+av = split_line(cmd, " \t");
+if (!av || !av[0])
+{
+    free(av);
+    continue;
+}
+
+
             free(line);
             handle_exit(av);
         }
