@@ -6,25 +6,37 @@
  * @fd: sortie d'entrée standard
  * Return: le nombre de caractères lus ou -1 en cas d'erreur ou EOF
  */
-ssize_t get_line(char **line, size_t *len, int fd)
+ssize_t get_line(char **line, size_t *len, FILE *fd)
 {
 ssize_t i = 0;
-char c;
-if (*line == NULL)
+int c;
+char *buf, *tmp;
+if (!line || !len || !fd)
+return (-1);
+if (*line == NULL || *len == 0)
 {
-*len = 1024;
+*len = 128;
 *line = malloc(*len);
 if (*line == NULL)
 return (-1);
 }
-while (read(fd, &c, 1) > 0)
+buf = *line;
+while ((c = fgetc(fd)) != EOF)
 {
+if (i + 1 >= (ssize_t) *len)
+{
+tmp = realloc(buf, *len);
+if (!buf)
+return (-1);
+buf = tmp;
+*line = buf;
+}
+buf[i++] = c;
 if (c == '\n')
 break;
-(*line)[i++] = c;
 }
-if (i == 0)
+if (i == 0 && c == EOF)
 return (-1);
-(*line)[i] = '\0';
+buf[i] = '\0';
 return (i);
 }

@@ -12,10 +12,10 @@
 #include <ctype.h>
 #include <fcntl.h>
 #define BUF_SIZE 1024
-#define SHELL_NAME "./hsh"
+#define SHELL_NAME "hsh"
 
 /* Prototypes */
-ssize_t get_line(char **line, size_t *len, int intostd);
+ssize_t get_line(char **line, size_t *len, FILE *fd);
 char *del_space(char *str);
 char **split_line(char *line);
 char *find_in_path(char *cmd, char **envp);

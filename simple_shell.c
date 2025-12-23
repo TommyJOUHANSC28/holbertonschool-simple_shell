@@ -24,8 +24,8 @@ signal(SIGINT, sigint_handler);
 while (1)
 {
 if (isatty(STDIN_FILENO))
-write(STDOUT_FILENO, "usr$ ", 5);
-read = get_line(&line, &len, STDIN_FILENO);
+write(STDOUT_FILENO, "$ ", 2);
+read = get_line(&line, &len, stdin);
 if (read == -1)
 break;
 if (line[read - 1] == '\n')
