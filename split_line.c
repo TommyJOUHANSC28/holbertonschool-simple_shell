@@ -18,11 +18,11 @@ char **split_line(char *line)
 	if (!line_count)
 		return (NULL);
 
-	token = strtok(line_count, " \t");
+	token = our_strtok(line_count, " \t");
 	while (token)
 	{
 		count++;
-		token = strtok(NULL, " \t");
+		token = our_strtok(NULL, " \t");
 	}
 	free(line_count);
 
@@ -37,7 +37,7 @@ char **split_line(char *line)
 		return (NULL);
 	}
 
-	token = strtok(line_copy, " \t");
+	token = our_strtok(line_copy, " \t");
 	for (i = 0; i < count; i++)
 	{
 		av[i] = strdup(token);
@@ -49,7 +49,7 @@ char **split_line(char *line)
 			free(line_copy);
 			return (NULL);
 		}
-		token = strtok(NULL, " \t");
+		token = our_strtok(NULL, " \t");
 	}
 	av[count] = NULL;
 	free(line_copy);
