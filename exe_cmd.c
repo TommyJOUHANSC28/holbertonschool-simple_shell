@@ -34,9 +34,15 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 		free(av);
 		return (status);
 	}
-
-	cmd_path = find_in_path(av[0], envp);
-	if (!cmd_path)
+    if (av[0][0] == '/' || (av[0][0] == '.' && av[0][1] == '/'))
+{
+	cmd_path = strdup(av[0]);
+}
+else
+{
+cmd_path = find_in_path(av[0], envp);
+}
+if (!cmd_path)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n", SHELL_NAME, 1, av[0]);
 		for (i = 0; av[i]; i++)
