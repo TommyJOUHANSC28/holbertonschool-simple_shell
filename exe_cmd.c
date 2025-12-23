@@ -14,7 +14,7 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 {
 	pid_t child;
 	size_t i;
-	char *cmd_path;
+	char *cmd_path = "/bin/ls";
 	char **av;
 	int status;
 
