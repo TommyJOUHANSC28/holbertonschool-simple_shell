@@ -6,29 +6,53 @@
 */
 char *find_in_path(char *cmd, char **envp)
 {
-char *path, *copy, *dir, *full;
-int i;
-if (strchr(cmd, '/'))
-return (access(cmd, X_OK) == 0 ? strdup(cmd) : NULL);
-for (i = 0; envp[i]; i++)
-if (strncmp(envp[i], "PATH=", 5) == 0)
-path = envp[i] + 5;
-if (!path)
-return NULL;
-copy = strdup(path);
-dir = our_strtok(copy, ":");
-while (dir)
-{
-full = malloc(strlen(dir) + strlen(cmd) + 2);
-sprintf(full, "%s/%s", dir, cmd);
-if (access(full, X_OK) == 0)
-{
-free(copy);
-return full;
-}
-free(full);
-dir = our_strtok(NULL, ":");
-}
-free(copy);
-return NULL;
+	char *path = NULL, *copy, *token, *full;
+	int i = 0;
+
+	if (!cmd || !*cmd)
+		return (NULL);
+	if (strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (strdup(cmd));
+		return (NULL);
+	}
+	
+	if (envp)
+	{
+		for (i = 0; envp[i]; i++)
+		{
+			if (strncmp(envp[i], "PATH=", 5) == 0)
+			{
+				path = envp[i] + 5;
+				break;
+			}
+		}
+	}
+	
+	if (!path || !*path)
+		return (NULL);
+	copy = strdup(path);
+	if (!copy)
+		return (NULL);
+	token = strtok(copy, ":");
+	while (token)
+	{
+		full = malloc(strlen(token) + strlen(cmd) + 2);
+		if (!full)
+			break;
+
+		strcpy(full, token);
+		strcat(full, "/");
+		strcat(full, cmd);
+		if (access(full, X_OK) == 0)
+		{
+			free(copy);
+			return (full);
+		}
+		free(full);
+		token = strtok(NULL, ":");
+	}
+	free(copy);
+	return (NULL);
 }

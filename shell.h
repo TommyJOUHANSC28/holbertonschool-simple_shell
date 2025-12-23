@@ -10,16 +10,17 @@
 #include <signal.h>
 #include <errno.h>
 #include <ctype.h>
+#include <fcntl.h>
 #define BUF_SIZE 1024
-#define SHELL_NAME "hsh"
+#define SHELL_NAME "./hsh"
 
 /* Prototypes */
 ssize_t get_line(char **line, size_t *len, int intostd);
 char *del_space(char *str);
-char **split_line(char *line, const char *delim);
+char **split_line(char *line);
 char *find_in_path(char *cmd, char **envp);
 int builtin_env(char **envp);
-int exe_cmd(char *line, char **envp);
+int exe_cmd(char *line, char **envp, char *line_buf);
 void sigint_handler(int sig);
 void handle_exit(char **av);
 char *our_strtok(char *str, const char *delim);
