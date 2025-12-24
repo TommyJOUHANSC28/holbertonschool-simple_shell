@@ -8,7 +8,7 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #define READ_SIZE 1024
-
+extern char **environ;
 extern int last_status;
 
 ssize_t get_line(char **line, size_t *len);
@@ -29,5 +29,6 @@ char *_strtok(char *str, const char *delim);
 char *_strcat(char *dest, const char *src);
 char *_strcpy(char *dest, const char *src);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
-
+int _unsetenv(char **av);
+int _setenv(char **av);
 #endif

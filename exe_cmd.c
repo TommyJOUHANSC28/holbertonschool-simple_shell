@@ -47,7 +47,23 @@ free(av[i]);
 free(av);
 return (127);
 }
+if (_strcmp(av[0], "setenv") == 0)
+{
+    last_status = _setenv(av);
+    for (i = 0; av[i]; i++)
+        free(av[i]);
+    free(av);
+    return (last_status);
+}
 
+if (_strcmp(av[0], "unsetenv") == 0)
+{
+    last_status = _unsetenv(av);
+    for (i = 0; av[i]; i++)
+        free(av[i]);
+    free(av);
+    return (last_status);
+}
 	child = fork();
 	if (child < 0)
 	{
