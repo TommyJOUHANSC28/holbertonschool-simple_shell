@@ -35,7 +35,7 @@ char *find_in_path(char *cmd, char **envp)
 	copy = strdup(path);
 	if (!copy)
 		return (NULL);
-	token = our_strtok(copy, ":");
+	token = strtok(copy, ":");
 	while (token)
 	{
 		full = malloc(strlen(token) + strlen(cmd) + 2);
@@ -51,7 +51,7 @@ char *find_in_path(char *cmd, char **envp)
 			return (full);
 		}
 		free(full);
-		token = our_strtok(NULL, ":");
+		token = strtok(NULL, ":");
 	}
 	free(copy);
 	return (NULL);

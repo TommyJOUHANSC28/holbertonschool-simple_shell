@@ -1,5 +1,5 @@
 #include "shell.h"
-
+#define SHELL_NAME "./hsh"
 /**
  * handle_exit - Gère la commande builtin exit
  * @av: tableau des arguments (av[0] == "exit")
