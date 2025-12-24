@@ -9,33 +9,30 @@
  */
 void handle_exit(char **av)
 {
-	size_t i;
-    int status = 0;
-
-    if (av[1])
-    {
-        /* Vérifie que l’argument est un entier positif ou négatif */
-        char *arg = av[1];
-        for (i = 0; arg[i]; i++)
-        {
-            if (i == 0 && (arg[i] == '+' || arg[i] == '-'))
-                continue;
-            if (!_isdigit(arg[i]))
-            {
-                fprintf(stderr, "%s: exit: %s: numeric argument required\n", SHELL_NAME, arg);
-                /* Libère la mémoire avant de quitter */
-                for (i = 0; av[i]; i++)
-                    free(av[i]);
-                free(av);
-                _exit(2); /* code d’erreur pour argument invalide */
-            }
-        }
-        status = _atoi(av[1]);
-    }
-
-    /* Libère la mémoire avant de quitter */
-    for (i = 0; av[i]; i++)
-        free(av[i]);
-    free(av);
-    _exit(status);
+size_t i;
+int status = last_status;
+if (av[1])
+{
+for (i = 0; av[1][i]; i++)
+{
+if (i == 0 && (av[1][i] == '+' || av[1][i] == '-'))
+continue;
+if (!_isdigit(av[1][i]))
+{
+fprintf(stderr, "%s: exit: %s: numeric argument required\n", SHELL_NAME, av[1]);
+for (i = 0; av[i]; i++)
+free(av[i]);
+free(av);
+_exit(2); /* code d’erreur pour argument invalide */
+}
+}
+status =_atoi(av[1]);
+status %= 256;
+if (status < 0)
+status += 256;
+}
+for (i = 0; av[i]; i++)
+free(av[i]);
+free(av);
+_exit(status);
 }

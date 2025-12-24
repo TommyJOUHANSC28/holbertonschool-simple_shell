@@ -14,6 +14,7 @@
  *
  * Return: 0 en cas de succès
  */
+ int last_status = 0;
 int main(int ac, char **av, char **envp)
 {
 	char *line = NULL;
@@ -23,7 +24,7 @@ int main(int ac, char **av, char **envp)
 	int exit_status = 0;
 
 	(void)ac;
-
+    (void)av;
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -40,14 +41,8 @@ int main(int ac, char **av, char **envp)
 		if (*cmd == '\0')
 			continue;
 
-		if (_strncmp(cmd, "exit", 4) == 0)
-		{
-			av = split_line(cmd);
-			free(line);
-			handle_exit(av);
-		}
-
-		exit_status = exe_cmd(cmd, envp, line);
+		
+	exit_status = exe_cmd(cmd, envp, line);
 	}
 
 	free(line);

@@ -24,7 +24,10 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 			free(av);
 		return (0);
 	}
-
+if(_strcmp(av[0], "exit") == 0)
+{
+	handle_exit(av);
+}
 	if (_strcmp(av[0], "env") == 0)
 	{
 		status = builtin_env(envp);
@@ -34,15 +37,16 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 		return (status);
 	}
 
-	cmd_path = find_in_path(av[0], envp);
-	if (!cmd_path)
-	{
-		fprintf(stderr, "%s: %d: %s: not found\n", SHELL_NAME, 1, av[0]);
-		for (i = 0; av[i]; i++)
-			free(av[i]);
-		free(av);
-		return (127);
-	}
+cmd_path = find_in_path(av[0], envp);
+if (!cmd_path)
+{
+fprintf(stderr, "%s: %d: %s: not found\n", SHELL_NAME, 1, av[0]);
+last_status = 127;
+for (i = 0; av[i]; i++)
+free(av[i]);
+free(av);
+return (127);
+}
 
 	child = fork();
 	if (child < 0)
@@ -71,6 +75,8 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 	free(av);
 	waitpid(child, &status, 0);
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
+		last_status = (WEXITSTATUS(status));
+	else
+	last_status = 1;
+	return (last_status);
 }
