@@ -40,7 +40,12 @@ int main(int ac, char **av, char **envp)
 		cmd = del_space(line);
 		if (*cmd == '\0')
 			continue;
-
+       if (strncmp(cmd, "exit", 4) == 0)
+		{
+			av = split_line(cmd);
+			free(line);
+			handle_exit(av);
+		}
 		
 	exit_status = exe_cmd(cmd, envp, line);
 	}
