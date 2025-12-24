@@ -20,7 +20,7 @@ void handle_exit(char **av)
         {
             if (i == 0 && (arg[i] == '+' || arg[i] == '-'))
                 continue;
-            if (!isdigit(arg[i]))
+            if (!_isdigit(arg[i]))
             {
                 fprintf(stderr, "%s: exit: %s: numeric argument required\n", SHELL_NAME, arg);
                 /* Libère la mémoire avant de quitter */
@@ -30,7 +30,7 @@ void handle_exit(char **av)
                 _exit(2); /* code d’erreur pour argument invalide */
             }
         }
-        status = atoi(av[1]);
+        status = _atoi(av[1]);
     }
 
     /* Libère la mémoire avant de quitter */

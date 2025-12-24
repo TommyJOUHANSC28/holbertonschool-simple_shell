@@ -9,9 +9,9 @@
 ssize_t get_line(char **line, size_t *len)
 {
 static char buffer[READ_SIZE];
-static ssize_t buf_pos;
-static ssize_t buf_size;
-ssize_t i;
+static ssize_t buf_pos = 0;
+static ssize_t buf_size = 0;
+ssize_t i = 0;
 char *tmp;
 
 if (!line || !len)
@@ -23,7 +23,7 @@ if (*line == NULL)
 if (!*line)
 return (-1);
 }
-i = 0;
+
 while (1)
 {
 /* Recharger le tampon si vide */
@@ -37,11 +37,12 @@ return (i > 0 ? i : -1);
 /* Agrandir la ligne si nécessaire */
 if ((size_t)i + 1 >= *len)
 {
-*len *= 2;
-tmp = realloc(*line, *len);
-if (!tmp)
-return (-1);
-*line = tmp;
+    size_t old = *len;
+    *len *= 2;
+    tmp = _realloc(*line, old, *len);
+    if (!tmp)
+        return (-1);
+    *line = tmp;
 }
 (*line)[i] = buffer[buf_pos++];
 if ((*line)[i++] == '\n')

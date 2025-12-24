@@ -21,7 +21,6 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 	av = split_line(line);
 	if (!av || !av[0])
 	{
-		if (av)
 			free(av);
 		return (0);
 	}

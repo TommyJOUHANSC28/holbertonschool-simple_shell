@@ -40,7 +40,7 @@ int main(int ac, char **av, char **envp)
 		if (*cmd == '\0')
 			continue;
 
-		if (strncmp(cmd, "exit", 4) == 0)
+		if (_strncmp(cmd, "exit", 4) == 0)
 		{
 			av = split_line(cmd);
 			free(line);

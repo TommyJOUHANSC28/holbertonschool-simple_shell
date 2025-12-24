@@ -11,7 +11,7 @@ char *find_in_path(char *cmd, char **envp)
 
 	if (!cmd || !*cmd)
 		return (NULL);
-	if (strchr(cmd, '/'))
+	if (_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
 			return (_strdup(cmd));
@@ -35,23 +35,23 @@ char *find_in_path(char *cmd, char **envp)
 	copy = _strdup(path);
 	if (!copy)
 		return (NULL);
-	token = strtok(copy, ":");
+	token = _strtok(copy, ":");
 	while (token)
 	{
-		full = malloc(strlen(token) + strlen(cmd) + 2);
+		full = malloc(_strlen(token) + _strlen(cmd) + 2);
 		if (!full)
 			break;
 
-		strcpy(full, token);
-		strcat(full, "/");
-		strcat(full, cmd);
+		_strcpy(full, token);
+		_strcat(full, "/");
+		_strcat(full, cmd);
 		if (access(full, X_OK) == 0)
 		{
 			free(copy);
 			return (full);
 		}
 		free(full);
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 	}
 	free(copy);
 	return (NULL);
