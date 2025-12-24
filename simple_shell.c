@@ -27,13 +27,13 @@ int main(int ac, char **av, char **envp)
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			printf("#usr$ ");
+		write(STDOUT_FILENO, "#usr$ ", 6);
 
-		read = getline(&line, &len, stdin);
+		read = get_line(&line, &len);
 		if (read == -1)
 			break;
 
-		if (line[read - 1] == '\n')
+		if (read > 0 && line[read - 1] == '\n')
 			line[read - 1] = '\0';
 
 		cmd = del_space(line);

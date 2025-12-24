@@ -7,7 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/wait.h>
-
+#define READ_SIZE 1024
 
 ssize_t get_line(char **line, size_t *len);
 char *del_space(char *str);

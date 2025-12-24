@@ -8,8 +8,46 @@
  */
 ssize_t get_line(char **line, size_t *len)
 {
-	if (isatty(STDIN_FILENO))
-		printf("#usr$ ");
-
-	return (getline(line, len, stdin));
+static char buffer[READ_SIZE];
+static ssize_t buf_pos;
+static ssize_t buf_size;
+ssize_t i;
+char *tmp;
+buf_pos = 0;
+buf_size = 0;
+if (!line || !len)
+return (-1);
+if (*line == NULL)
+{
+*len = 128;
+*line = malloc(*len);
+if (!*line)
+return (-1);
+}
+i = 0;
+while (1)
+{
+/* Recharger le tampon si vide */
+if (buf_pos >= buf_size)
+{
+buf_size = read(STDIN_FILENO, buffer, READ_SIZE);
+buf_pos = 0;
+if (buf_size <= 0)
+return (i > 0 ? i : -1);
+}
+/* Agrandir la ligne si nécessaire */
+if ((size_t)i + 1 >= *len)
+{
+*len *= 2;
+tmp = realloc(*line, *len);
+if (!tmp)
+return (-1);
+*line = tmp;
+}
+(*line)[i] = buffer[buf_pos++];
+if ((*line)[i++] == '\n')
+break;
+}
+(*line)[i] = '\0';
+return (i);
 }
