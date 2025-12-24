@@ -26,7 +26,7 @@ int exe_cmd(char *line, char **envp, char *line_buf)
 		return (0);
 	}
 
-	if (strcmp(av[0], "env") == 0)
+	if (_strcmp(av[0], "env") == 0)
 	{
 		status = builtin_env(envp);
 		for (i = 0; av[i]; i++)

@@ -14,7 +14,7 @@ char **split_line(char *line)
 	if (!line)
 		return (NULL);
 
-	line_count = strdup(line);
+	line_count = _strdup(line);
 	if (!line_count)
 		return (NULL);
 
@@ -30,7 +30,7 @@ char **split_line(char *line)
 	if (!av)
 		return (NULL);
 
-	line_copy = strdup(line);
+	line_copy = _strdup(line);
 	if (!line_copy)
 	{
 		free(av);
@@ -40,7 +40,7 @@ char **split_line(char *line)
 	token = strtok(line_copy, " \t");
 	for (i = 0; i < count; i++)
 	{
-		av[i] = strdup(token);
+		av[i] = _strdup(token);
 		if (!av[i])
 		{
 			while (i > 0)

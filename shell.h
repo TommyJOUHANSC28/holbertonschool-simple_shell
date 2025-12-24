@@ -16,5 +16,9 @@ int exe_cmd(char *line, char **envp, char *line_buf);
 char *find_in_path(char *cmd, char **envp);
 void handle_exit(char **av);
 int builtin_env(char **envp);
+char *_strchr(const char *s, char c);
+char *_strdup(const char *str);
+int _strncmp(const char *s1, const char *s2, size_t n);
+int _strcmp(const char *s1, const char *s2);
 
 #endif

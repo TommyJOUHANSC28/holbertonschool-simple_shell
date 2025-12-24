@@ -14,7 +14,7 @@ char *find_in_path(char *cmd, char **envp)
 	if (strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
-			return (strdup(cmd));
+			return (_strdup(cmd));
 		return (NULL);
 	}
 	
@@ -22,7 +22,7 @@ char *find_in_path(char *cmd, char **envp)
 	{
 		for (i = 0; envp[i]; i++)
 		{
-			if (strncmp(envp[i], "PATH=", 5) == 0)
+			if (_strncmp(envp[i], "PATH=", 5) == 0)
 			{
 				path = envp[i] + 5;
 				break;
@@ -32,7 +32,7 @@ char *find_in_path(char *cmd, char **envp)
 	
 	if (!path || !*path)
 		return (NULL);
-	copy = strdup(path);
+	copy = _strdup(path);
 	if (!copy)
 		return (NULL);
 	token = strtok(copy, ":");
