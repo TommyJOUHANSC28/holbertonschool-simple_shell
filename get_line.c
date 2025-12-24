@@ -13,8 +13,7 @@ static ssize_t buf_pos;
 static ssize_t buf_size;
 ssize_t i;
 char *tmp;
-buf_pos = 0;
-buf_size = 0;
+
 if (!line || !len)
 return (-1);
 if (*line == NULL)
