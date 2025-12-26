@@ -25,14 +25,13 @@ _strcat(new_var, "=");
 _strcat(new_var, av[2]);
 for (i = 0; environ[i]; i++)
 {
-if (_strncmp(environ[i], av[1], _strlen(av[1])) == 0 && environ[i][_strlen(av[1])] == '=')
+if (_strncmp(environ[i], av[1], _strlen(av[1])) == 0 &&
+ environ[i][_strlen(av[1])] == '=')
 {
 
 environ[i] = new_var;
 return (0);
 }
 }
-environ[i] = new_var;
-environ[i + 1] = NULL;
 return (0);
 }

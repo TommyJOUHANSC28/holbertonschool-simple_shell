@@ -26,12 +26,10 @@ return (0);
 int builtin_cd(char **args, char **envp)
 {
 char *path;
-(void)envp;
-
 /* cd sans argurment -> HOME */
 if (!args[1])
 {
-path = getenv("HOME");
+path = _getenv("HOME",envp);
 if (!path)
 {
 write(2, "cd: HOME not set\n", 17);
@@ -42,7 +40,7 @@ return (_chdir(path));
 /** cd - */
 if (_strncmp(args[1], "-", 2) == 0)
 {
-path = getenv("OLDPWD");
+path = _getenv("OLDPWD", envp);
 if (!path)
 {
 write(2, "cd: OLDPWD not set\n", 19);
