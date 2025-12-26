@@ -10,12 +10,16 @@ char *oldpwd;
 char *newpwd;
 char *av_oldpwd[4];
 char *av_pwd[4];
+if (!path)
+return (-1);
 oldpwd = _getcwd();
 if (!oldpwd)
 return (-1);
 if (chdir(path) == -1)
 {
-perror("cd");
+write(2, "cd: can't cd to ", 16);
+write(2, path, _strlen(path));
+write(2, "\n", 1);
 free(oldpwd);
 return(-1);
 }

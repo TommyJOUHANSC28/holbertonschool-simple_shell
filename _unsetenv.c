@@ -14,7 +14,8 @@ if (!av || !av[1])
 return (1);
 for (i = 0; environ[i]; i++)
 {
-if (_strncmp(environ[i], av[1], _strlen(av[1])) == 0 && environ[i][_strlen(av[1])] == '=')
+if (_strncmp(environ[i], av[1], _strlen(av[1])) == 0 
+&& environ[i][_strlen(av[1])] == '=')
 {
 /* Décaler les variables */
 for (j = i; environ[j]; j++)
