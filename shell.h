@@ -31,4 +31,9 @@ char *_strcpy(char *dest, const char *src);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 int _unsetenv(char **av);
 int _setenv(char **av);
+char *_getcwd(void);
+int builtin_cd(char **args, char **envp);
+int _chdir(char *path);
+char *_getenv(const char *name, char **envp);
+
 #endif
