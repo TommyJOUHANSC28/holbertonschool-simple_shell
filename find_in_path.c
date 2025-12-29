@@ -11,10 +11,10 @@ char *find_in_path(char *cmd, char **envp)
 
 	if (!cmd || !*cmd)
 		return (NULL);
-	if (_strchr(cmd, '/'))
+	if (strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
-			return (_strdup(cmd));
+			return (strdup(cmd));
 		return (NULL);
 	}
 	
@@ -22,7 +22,7 @@ char *find_in_path(char *cmd, char **envp)
 	{
 		for (i = 0; envp[i]; i++)
 		{
-			if (_strncmp(envp[i], "PATH=", 5) == 0)
+			if (strncmp(envp[i], "PATH=", 5) == 0)
 			{
 				path = envp[i] + 5;
 				break;
@@ -32,26 +32,26 @@ char *find_in_path(char *cmd, char **envp)
 	
 	if (!path || !*path)
 		return (NULL);
-	copy = _strdup(path);
+	copy = strdup(path);
 	if (!copy)
 		return (NULL);
-	token = _strtok(copy, ":");
+	token = strtok(copy, ":");
 	while (token)
 	{
-		full = malloc(_strlen(token) + _strlen(cmd) + 2);
+		full = malloc(strlen(token) + strlen(cmd) + 2);
 		if (!full)
 			break;
 
-		_strcpy(full, token);
-		_strcat(full, "/");
-		_strcat(full, cmd);
+		strcpy(full, token);
+		strcat(full, "/");
+		strcat(full, cmd);
 		if (access(full, X_OK) == 0)
 		{
 			free(copy);
 			return (full);
 		}
 		free(full);
-		token = _strtok(NULL, ":");
+		token = strtok(NULL, ":");
 	}
 	free(copy);
 	return (NULL);

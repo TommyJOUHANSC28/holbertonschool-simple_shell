@@ -7,55 +7,53 @@
  */
 char **split_line(char *line)
 {
-    char *token, *copy;
-    char **av;
-    size_t i = 0, count = 0;
+	char *token, *line_copy, *line_count;
+	char **av = NULL;
+	size_t i, count = 0;
 
-    if (!line)
-        return (NULL);
+	if (!line)
+		return (NULL);
 
-    /* 1️⃣ Compter les mots */
-    copy = _strdup(line);
-    if (!copy)
-        return (NULL);
+	line_count = strdup(line);
+	if (!line_count)
+		return (NULL);
 
-    token = _strtok(copy, " \t");
-    while (token)
-    {
-        count++;
-        token = _strtok(NULL, " \t");
-    }
-    free(copy);
+	token = strtok(line_count, " \t");
+	while (token)
+	{
+		count++;
+		token = strtok(NULL, " \t");
+	}
+	free(line_count);
 
-    /* 2️⃣ Allouer le tableau */
-    av = malloc(sizeof(char *) * (count + 1));
-    if (!av)
-        return (NULL);
+	av = malloc(sizeof(char *) * (count + 1));
+	if (!av)
+		return (NULL);
 
-    /* 3️⃣ Remplir le tableau */
-    copy = _strdup(line);
-    if (!copy)
-    {
-        free(av);
-        return (NULL);
-    }
+	line_copy = strdup(line);
+	if (!line_copy)
+	{
+		free(av);
+		return (NULL);
+	}
 
-    token = _strtok(copy, " \t");
-    for (i = 0; i < count; i++)
-    {
-        av[i] = _strdup(token);
-        if (!av[i])
-        {
-            while (i > 0)
-                free(av[--i]);
-            free(av);
-            free(copy);
-            return (NULL);
-        }
-        token = _strtok(NULL, " \t");
-    }
+	token = strtok(line_copy, " \t");
+	for (i = 0; i < count; i++)
+	{
+		av[i] = strdup(token);
+		if (!av[i])
+		{
+			while (i > 0)
+				free(av[--i]);
+			free(av);
+			free(line_copy);
+			return (NULL);
+		}
+		token = strtok(NULL, " \t");
+	}
+	av[count] = NULL;
+	free(line_copy);
 
-    av[count] = NULL;
-    free(copy);
-    return (av);
+	return (av);
 }
+
